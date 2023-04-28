@@ -1,24 +1,29 @@
-# my-wedding
+# yorkie
 
-## Project setup
-```
-yarn install
-```
+> Git hooks made easy
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+This is a fork of [husky](https://github.com/typicode/husky) with a few changes:
 
-### Compiles and minifies for production
-```
-yarn build
-```
+- Prioritizes `package.json` located next to `.git` directory, instead of hard-coded upward search. This avoids the problem when a root package in a lerna monorepo and a sub package both depends on husky, it gets confused and double-updates the root git hooks with wrong paths.
 
-### Lints and fixes files
-```
-yarn lint
-```
+- Changed where hooks are read from in `package.json`:
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+  **Before**
+
+  ``` json
+  {
+    "scripts": {
+      "precommit": "foo"
+    }
+  }
+  ```
+
+  **After**
+
+  ``` json
+  {
+    "gitHooks": {
+      "pre-commit": "foo"
+    }
+  }
+  ```
